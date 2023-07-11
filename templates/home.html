@@ -2,15 +2,14 @@
 <html>
 <head>
   <title>Wanderlust World: Explore Your Destination</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js"></script>
+  <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
   <header>
     <!-- Navigation menu or logo -->
     <nav>
       <ul>
-        <li><a href="#about">About</a></li>
+        <li><a href="/register">Register</a></li>
         <li><a href="#countries">Countries</a></li>
         <li><a href="#guides">Travel Guides</a></li>
         <li><a href="#videos">Trending Videos</a></li>
@@ -23,8 +22,8 @@
     <!-- Hero section with captivating imagery and introductory text -->
     <h1>Wanderlust World: Explore Your Destination</h1>
     <p>Enter the name of a country to begin your exploration:</p>
-    <form action="country.html" method="get">
-      <input type="text" name="countryName" placeholder="Enter a country name">
+    <form id="countryForm">
+      <input type="text" id="countryInput" placeholder="Enter a country name">
       <input type="submit" value="Explore">
     </form>
   </section>
@@ -36,5 +35,6 @@
     <p>&copy; 2023 Wanderlust World. All rights reserved.</p>
   </footer>
   
+  <script src="../static/script.js"></script>
 </body>
 </html>

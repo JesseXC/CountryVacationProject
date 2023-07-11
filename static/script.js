@@ -1,24 +1,31 @@
 // script.js
 
-// Form Validation
-const form = document.querySelector('form');
+const form = document.getElementById('countryForm');
+const countryInput = document.getElementById('countryInput');
+const validCountries = ['United States', 'Country2', 'Country3']; 
 
 form.addEventListener('submit', function(event) {
   event.preventDefault();
-  
-  // Perform form validation logic here
-  
-  // Example: Check if the country name is entered
-  const countryInput = form.elements.countryName;
-  if (countryInput.value.trim() === '') {
-    // Display an error message
+
+  const enteredCountry = countryInput.value.trim();
+
+  if (enteredCountry === '') {
     alert('Please enter a country name.');
     return;
   }
+
+  if (!isValidCountry(enteredCountry)) {
+    alert('Invalid country. Please enter a valid country.');
+    return;
+  }
   
-  // Proceed with submitting the form
-  form.submit();
+  // Redirect to countryInformation route in Flask
+  window.location.href = `/countryInformation?country=${encodeURIComponent(enteredCountry)}`;
 });
+
+function isValidCountry(country) {
+  return validCountries.includes(country);
+}
 
 // Image Slider
 const slides = document.querySelectorAll('.slider .slide');
