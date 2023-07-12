@@ -6,28 +6,34 @@
 </head>
 <body>
   <header>
-    <!-- Navigation menu or logo -->
-    <nav>
-      <ul>
-        <li><a href="/register">Register</a></li>
-        <li><a href="#countries">Countries</a></li>
-        <li><a href="#guides">Travel Guides</a></li>
-        <li><a href="#videos">Trending Videos</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a class="navbar-logo" href="/home">Logo</a>
+        <ul class="navbar-links">
+          <li><a href="/register">Register</a></li>
+          <li><a href="/home">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
     </nav>
-  </header>
-  
-  <section id="hero">
-    <!-- Hero section with captivating imagery and introductory text -->
-    <h1>Wanderlust World: Explore Your Destination</h1>
-    <p>Enter the name of a country to begin your exploration:</p>
-    <form id="countryForm">
-      <input type="text" id="countryInput" placeholder="Enter a country name">
-      <input type="submit" value="Explore">
-    </form>
-  </section>
-  
+  </header> 
+  <div class = "container">
+    <div class = "outer">
+      <div class = "details">
+        <section id="hero">
+          <!-- Hero section with captivating imagery and introductory text -->
+          <h1>Wanderlust World: Explore Your Destination</h1>
+          <p>Enter the name of a country to begin your exploration:</p>
+          <form id="countryForm">
+            <input type="text" id="countryInput" placeholder="Enter a country name">
+            <input type="submit" value="Explore">
+          </form>
+        </section>      
+      </div>
+    </div>
+  </div>
   <!-- Additional sections and content of your home page -->
   
   <footer>
