@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, flash, redirect, request
 from forms import RegistrationForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
+from Take2 import getWeatherCF, message
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
@@ -29,7 +30,9 @@ def home():
 @app.route("/countryInformation")
 def country_information():
     country = request.args.get('country')
-    return render_template('countryInformation.html', country=country)
+    temp = getWeatherCF(country)
+    messa = message(59)
+    return render_template('countryInformation.html', country=country, temperature=temp, mess=messa)
 
 
 @app.route("/register", methods=['GET', 'POST'])
