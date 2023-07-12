@@ -2,8 +2,8 @@ from flask import Flask, render_template, url_for, flash, redirect, request
 from forms import RegistrationForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
+from youtube_api import TrendingVideos
 from Take2 import getWeatherCF, message
-
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
 app.config['SECRET_KEY'] = '7753df06aa5ee8fc7318aada4d2fafaa'
@@ -30,10 +30,12 @@ def home():
 @app.route("/countryInformation")
 def country_information():
     country = request.args.get('country')
+    trending = TrendingVideos('AIzaSyAUTGuVJmt1eCA33Se8Nvu1Pl8_KYi8RdU')
+    trending.get_most_popular_specific("US",5)
+    youtube_info = trending.get_video_information()
     temp = getWeatherCF(country)
     messa = message(59)
-    return render_template('countryInformation.html', country=country, temperature=temp, mess=messa)
-
+    return render_template('countryInformation.html', country=country,youtube_videos=youtube_info, temperature=temp, mess=messa)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
