@@ -29,20 +29,27 @@ with app.app_context():
 def home():
     return render_template('home.html')
 
-@app.route("/countryInformation")
+@app.route("/countryInformation", methods = ['GET'])
 def country_information():
+    print("anything")
+    print(request.args)
     country = request.args.get('country')
+    print("get" + country)
     country_info = search_country(country, list_of_names)
     trending = TrendingVideos('AIzaSyAUTGuVJmt1eCA33Se8Nvu1Pl8_KYi8RdU')
     trending.get_most_popular_specific("US",5)
     youtube_info = trending.get_video_information()
     temp = getWeatherCF(country)
     messa = message(59)
-    if country_info:
-        return render_template('countryInformation.html', country=country, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa)
-    else:
-        error_message = "Country not found"
-        return render_template('error.html', error_message = error_message)
+    print(country_info)
+
+    return render_template('countryInformation.html', country=country, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa)
+    
+    # if country_info:
+    #     return render_template('countryInformation.html', country=country, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa)
+    # else:
+    #     error_message = "Country not found"
+    #     return render_template('error.html', error_message = error_message)
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()

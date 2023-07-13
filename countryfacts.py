@@ -56,7 +56,7 @@ def search_by_country_name(nameeofcount):
         #x['Provinces'].append(countryAPI.provinces())
         results.append(("Timezones:", countryAPI.timezones()))
         #x['Timezones'].append(countryAPI.timezones())
-        result_string = "\n".join([f"{key} {value}" for key, value in results])
+        # result_string = "\n".join([f"{key} {value}" for key, value in results])
 
         #print(pd.DataFrame(results))
 
@@ -64,8 +64,8 @@ def search_by_country_name(nameeofcount):
         #df = pd.DataFrame.from_dict(x)
         # print(df)
         
-        added_to_database(pd.DataFrame.from_dict(x))
-        return result_string
+        # added_to_database(pd.DataFrame.from_dict(x))
+        return results
     
 search_option = input("Search by Country Name (Enter name): ")
 
@@ -74,7 +74,7 @@ def search_country(search_option, list_of_names):
 
     if search_option in list_of_names:
         country_info = search_by_country_name(search_option)
-        print(country_info)
+        return country_info
     else:
         similar_matches = difflib.get_close_matches(search_option, list_of_names)
         if len(similar_matches) > 0:
@@ -84,7 +84,8 @@ def search_country(search_option, list_of_names):
         else:
             print("Country does not exist, I'm sorry")
 
-search_country(search_option, list_of_names)
+print(search_country(search_option, list_of_names))
+
 
 # printhistory=input("Would you like to see previous Countries Searched?(Y or N): ")
 # def history(printhistory):
