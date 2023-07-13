@@ -3,7 +3,7 @@ from forms import RegistrationForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 from youtube_api import TrendingVideos
-from Take2 import getWeatherCF, message
+from Take2 import getWeatherCF, message, capital
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
 app.config['SECRET_KEY'] = '7753df06aa5ee8fc7318aada4d2fafaa'
@@ -33,9 +33,11 @@ def country_information():
     trending = TrendingVideos('AIzaSyAUTGuVJmt1eCA33Se8Nvu1Pl8_KYi8RdU')
     trending.get_most_popular_specific("US",5)
     youtube_info = trending.get_video_information()
-    temp = getWeatherCF(country)
-    messa = message(59)
-    return render_template('countryInformation.html', country=country,youtube_videos=youtube_info, temperature=temp, mess=messa)
+    capital_city = capital(country)
+    temp = getWeatherCF(capital_city)
+    messa = message(temp)
+    print(capital_city)
+    return render_template('countryInformation.html', country=country,youtube_videos=youtube_info, temperature=temp, mess=messa, capital=capital_city)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
