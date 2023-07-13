@@ -42,10 +42,11 @@ with app.app_context():
 def home():
     return render_template('home.html')
 
-@app.route("/countryInformation")
+@app.route("/countryInformation", methods = ['GET'])
 def country_information():
+    country = request.args.get('country')
+    country_info = search_country(country, list_of_names)
     regions = ['AE', 'BH', 'DZ', 'EG', 'IQ', 'JO', 'KW', 'LB', 'LY', 'MA', 'OM', 'QA', 'SA', 'TN', 'YE', 'AZ', 'BY', 'BG', 'BD', 'BA', 'CZ', 'DK', 'AT', 'CH', 'DE', 'GR', 'AU', 'BE', 'CA', 'GB', 'GH', 'IE', 'IL', 'IN', 'JM', 'KE', 'MT', 'NG', 'NZ', 'SG', 'UG', 'US', 'ZA', 'ZW', 'AR', 'BO', 'CL', 'CO', 'CR', 'DO', 'EC', 'ES', 'GT', 'HN', 'MX', 'NI', 'PA', 'PE', 'PR', 'PY', 'SV', 'UY', 'VE', 'EE', 'FI', 'PH', 'FR', 'SN', 'HR', 'HU', 'ID', 'IS', 'IT', 'JP', 'GE', 'KZ', 'KR', 'LU', 'LA', 'LT', 'LV', 'MK', 'MY', 'NO', 'NP', 'NL', 'PL', 'BR', 'PT', 'RO', 'RU', 'LK', 'SK', 'SI', 'ME', 'RS', 'SE', 'TZ', 'TH', 'TR', 'UA', 'PK', 'VN', 'HK', 'TW', 'CY', 'KH', 'LI', 'PG']
-
     countries = {
         'Afghanistan': 'AF',
         'Albania': 'AL',
@@ -300,47 +301,34 @@ def country_information():
 
     valid_country = {country: code for country, code in countries.items() if code in regions}
 
-    country = request.args.get('country')
-    #country_info = search_country(country, list_of_names)
     images = None
     countryFacts = None
-    print("hello")
-    #query_result = connection.execute(db.text(f"SELECT * FROM Country_Info")).fetchall()
-    #print(pd.DataFrame(query_result))
     existing_country = Country_Info.query.filter_by(Country=country).first()
     print(existing_country)
     if existing_country:
-        # Pull stored data that we want (country facts, images), set variables to be sent through render_template function
-        # countryFacts = query_result[0]['Country_Facts']
         print("Enter IF")
         images_str = existing_country.Country_Images
         images = json.loads(images_str) 
         print(f"If Query_result worked: {images}")
     else:
-        # Call API to get images
         images = getImages(country, 3)
         print(f"Else Block: {images}")
         images_str = json.dumps(images) 
-        country_info = Country_Info(
+        country_infomation = Country_Info(
             Country=country,
             Country_Images=images_str,
         )
-        db.session.add(country_info)
+        db.session.add(country_information)
         db.session.commit()
-        #query = db.text(f"INSERT INTO country_info (Country, Country_Images) VALUES ('{country}', '{images_str}');")
-        #connection.execute(query)
-        #check = connection.execute(db.text("SELECT * FROM country_info;")).fetchall()
-        #print(pd.DataFrame(check))
         query_result = Country_Info.query.all()
         print(query_result)
-
     trending = TrendingVideos('AIzaSyAUTGuVJmt1eCA33Se8Nvu1Pl8_KYi8RdU')
     trending.get_most_popular_specific(valid_country[country],5)
     youtube_info = trending.get_video_information()
     capital_city = capital(country)
     temp = getWeatherCF(capital_city)
     messa = message(temp)
-    return render_template('countryInformation.html', country=country, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city)
+    return render_template('countryInformation.html', country=country, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city)
     #if country_info:
         #return render_template('countryInformation.html', country=country, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city)
     #else:
