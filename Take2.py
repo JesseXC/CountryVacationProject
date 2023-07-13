@@ -197,5 +197,17 @@ def message(temp):
     else:
         print("I would just relocate if I was you")
     return m
-                
-    
+
+def capital(country):
+    url = "https://restcountries.com/v3.1/name"
+    params = {
+        "fullText": "true",
+        "fields": "name,capital",
+    }
+    response = requests.get(f"{url}/{country}", params=params)
+    data = response.json()
+
+    if response.status_code == 200 and data:
+        return data[0]['capital'][0]
+    else:
+        return None
