@@ -178,6 +178,7 @@ def getWeatherCF(location):
         return temp
     except BaseException:
         print("I dont think that is a place!")
+        
 def message(temp):
     if temp < 40:
         m = "When the weather is less than 40 degrees Fahrenheit, it is important to take some precautions to stay warm and safe. Dressing in layers is key to retaining body heat, so make sure to wear a thermal undershirt, sweater, jacket, and a hat. Do not forget to protect your extremities by wearing warm socks, insulated waterproof boots, gloves or mittens, a scarf, and earmuffs or a hat. A heavy winter coat that provides insulation and wind resistance is essential to shield you from the cold. Stay hydrated by drinking warm fluids like tea or hot water, even though it is cold outside. Be cautious of icy surfaces and take extra care while walking or driving. If you need to go outdoors, minimize your exposure and take regular breaks in warm indoor areas. Ensure that your home's heating system is working properly to maintain a warm and comfortable indoor environment. Check on vulnerable individuals like elderly neighbors, young children, or those who may be more susceptible to the cold. Lastly, when planning outdoor activities, choose appropriate winter sports or exercises and be prepared with the right gear and safety precautions. Stay warm and stay safe!"
@@ -190,12 +191,8 @@ def message(temp):
                     
     elif temp < 90:
         m = "When the temperature climbs above 80 degrees Fahrenheit but stays below 90, it's important to take precautions to stay comfortable and cool in the warmer weather. Opt for lightweight and breathable clothing, such as loose-fitting cotton shirts, shorts, skirts, or dresses, to allow air circulation and help with heat dissipation. Wearing a wide-brimmed hat or a cap can provide shade and protect your face and head from the sun's rays. Apply sunscreen generously to exposed skin and wear sunglasses to protect your eyes from UV rays. Stay hydrated by drinking plenty of water throughout the day, especially during outdoor activities. Seek shade or create your own shade with umbrellas, canopies, or sunshades. Plan your outdoor activities during the cooler parts of the day, such as early morning or evening. If possible, choose shaded routes or trails for walks or runs. Use fans, air conditioning, or natural ventilation to cool indoor spaces. Take frequent breaks in cool or air-conditioned areas to prevent overheating. Be mindful of the signs of heat-related illnesses, such as dizziness, nausea, headache, or muscle cramps. If you experience any of these symptoms, find a cool place to rest, hydrate, and seek medical attention if necessary. Enjoy outdoor activities like swimming, water sports, or picnics near water bodies. Stay cool and make the most of the warmer weather while prioritizing your well-being."
-
-    elif temp < 100:
-        print("Try to stay indoors & ")
-
     else:
-        print("I would just relocate if I was you")
+        m = "When the mercury soars to a sweltering 100 degrees Fahrenheit, it’s crucial to prioritize your well-being and take measures to stay cool and safe. To combat the scorching heat, follow these recommendations:First and foremost, stay hydrated by drinking plenty of water throughout the day. Dehydration can occur rapidly in high temperatures, so carry a water bottle with you and make a conscious effort to sip on fluids regularly. Avoid sugary or alcoholic beverages, as they can exacerbate dehydration. Seek shade or air-conditioned spaces to escape the direct heat. Limit your exposure to the sun and spend time in shaded areas whenever possible. If air conditioning is available, take advantage of it by staying indoors in cooled environments such as your home, shopping malls, or public buildings. If you lack access to air conditioning, use fans or create cross-ventilation by opening windows and doors to circulate air. Dressing appropriately can make a significant difference in staying cool. Opt for loose-fitting, lightweight clothing made of breathable fabrics like cotton or linen. Light colors help reflect sunlight, keeping you cooler. Don’t forget to shield yourself from the sun’s rays by wearing a wide-brimmed hat and sunglasses."
     return m
 
 def capital(country):

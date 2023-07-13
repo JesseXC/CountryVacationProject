@@ -42,7 +42,7 @@ with app.app_context():
 def home():
     return render_template('home.html')
 
-@app.route("/countryInformation", methods = ['GET'])
+@app.route("/countryInformation")
 def country_information():
     country = request.args.get('country')
     country_info = search_country(country, list_of_names)
@@ -309,12 +309,13 @@ def country_information():
         print("Enter IF")
         images_str = existing_country.Country_Images
         images = json.loads(images_str) 
+
         print(f"If Query_result worked: {images}")
     else:
         images = getImages(country, 3)
         print(f"Else Block: {images}")
         images_str = json.dumps(images) 
-        country_infomation = Country_Info(
+        country_information = Country_Info(
             Country=country,
             Country_Images=images_str,
         )
@@ -322,18 +323,15 @@ def country_information():
         db.session.commit()
         query_result = Country_Info.query.all()
         print(query_result)
+        print(images)
     trending = TrendingVideos('AIzaSyAUTGuVJmt1eCA33Se8Nvu1Pl8_KYi8RdU')
     trending.get_most_popular_specific(valid_country[country],5)
     youtube_info = trending.get_video_information()
     capital_city = capital(country)
     temp = getWeatherCF(capital_city)
     messa = message(temp)
-    return render_template('countryInformation.html', country=country, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city)
-    #if country_info:
-        #return render_template('countryInformation.html', country=country, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city)
-    #else:
-        #error_message = "Country not found"
-        #return render_template('error.html', error_message = error_message)
+    print(type(images))
+    return render_template('countryInformation.html', country=country,images = images, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city)
       
 @app.route("/register", methods=['GET', 'POST'])
 def register():

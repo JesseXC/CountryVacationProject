@@ -83,8 +83,6 @@ def search_country(search_option, list_of_names):
         else:
             print("Country does not exist, I'm sorry")
 
-print(search_country(search_option, list_of_names))
-
 # printhistory=input("Would you like to see previous Countries Searched?(Y or N): ")
 # def history(printhistory):
 #     if printhistory.lower() == "yes" or printhistory.lower() == "y":
