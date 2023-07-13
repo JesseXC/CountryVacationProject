@@ -67,7 +67,6 @@ def search_by_country_name(nameeofcount):
         # added_to_database(pd.DataFrame.from_dict(x))
         return results
     
-search_option = input("Search by Country Name (Enter name): ")
 
 def search_country(search_option, list_of_names):
     search_option = search_option.lower()
@@ -85,7 +84,6 @@ def search_country(search_option, list_of_names):
             print("Country does not exist, I'm sorry")
 
 print(search_country(search_option, list_of_names))
-
 
 # printhistory=input("Would you like to see previous Countries Searched?(Y or N): ")
 # def history(printhistory):

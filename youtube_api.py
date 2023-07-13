@@ -55,7 +55,7 @@ class TrendingVideos:
             print(pd.DataFrame(query_result))
     
     def get_most_popular_specific(self,country,num):
-        video_by_chart = self.api.get_videos_by_chart(chart="mostPopular", region_code="US", count=num)
+        video_by_chart = self.api.get_videos_by_chart(chart="mostPopular", region_code=f"{country}", count=num)
         for video in video_by_chart.items:
             self.chartedVideos.append(video)
         return self.chartedVideos

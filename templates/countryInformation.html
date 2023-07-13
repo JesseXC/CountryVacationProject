@@ -9,13 +9,10 @@
     <header>
         <nav class="navbar">
           <div class="navbar-container">
-            <a class="navbar-logo" href="/home">Logo</a>
+            <a class="navbar-logo" href="/home">Wonderlust World</a>
             <ul class="navbar-links">
               <li><a href="/register">Register</a></li>
               <li><a href="/home">Home</a></li>
-              <li><a href="/about">About</a></li>
-              <li><a href="/services">Services</a></li>
-              <li><a href="/contact">Contact</a></li>
             </ul>
           </div>
         </nav>
@@ -29,7 +26,6 @@
         </div>
         <div class="tab-content">
             <div class="active">
-                <h1>Home</h1>
                 <div class="grid-container">
                     <div class="grid-item">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Budapest_Hungarian_Parliament_%2831363963556%29.jpg">
@@ -51,10 +47,10 @@
             </div>
             <div>
                 <h1>What about the weather?</h1>
-                <p> The weather in {{country}} is {{temperature}}F°! </p>
+                <p> The weather in {{capital}} is {{temperature}}F°! </p>
                 <div class="grid-container">
                     <div class="grid-item">
-                        <img src= "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/36/37/32/caption.jpg?w=700&h=500&s=1">
+                        <img src= static/matthew-henry-U5rMrSI7Pn4-unsplash.jpg>
                     </div>
                     <div class="grid-item">
                         <p>{{mess}}</p>
@@ -67,11 +63,12 @@
                     {% for video in youtube_videos %}
                         <li>
                             <h2 class="media-title">{{ video['title'] }}</h2>
-                            <p class="media-description">{{ video['description'] }}</p>
                             <p>Views: {{ video['viewCount'] }}</p>
+                            <p>Channel: {{video['channel']}}</p>
                             <div class="media-video">
                                 <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video['link'] }}" frameborder="0" allowfullscreen></iframe>
                             </div>
+                            <p class="media-description">{{ video['description'] }}</p>
                         </li>
                     {% endfor %}
                 </ul>
