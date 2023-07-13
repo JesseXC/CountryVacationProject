@@ -3,7 +3,7 @@ import difflib
 import sqlite3
 import pandas as pd 
 from seoproject import added_to_database
-from testdb import print_database_data
+
 
 
 list_of_names = []
@@ -86,11 +86,11 @@ def search_country(search_option, list_of_names):
 
 search_country(search_option, list_of_names)
 
-printhistory=input("Would you like to see previous Countries Searched?(Y or N): ")
-def history(printhistory):
-    if printhistory.lower() == "yes" or printhistory.lower() == "y":
-        print_database_data()
-        print("Have a nice day!")
-    else:
-        print("Ok, Have a nice day!")
-history(printhistory)
+# printhistory=input("Would you like to see previous Countries Searched?(Y or N): ")
+# def history(printhistory):
+#     if printhistory.lower() == "yes" or printhistory.lower() == "y":
+#         added_to_database(data_frame)
+#         print("Have a nice day!")
+#     else:
+#         print("Ok, Have a nice day!")
+# history(printhistory)
