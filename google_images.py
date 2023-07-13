@@ -18,7 +18,9 @@ def getImages(query,number):
         results = search.get_dict()
         if "error" not in results:
             while count < number:
-                for image in results["image_results"]:
+                for image in results["images_results"]:
+                    if count == number:
+                        break
                     if image["original"] not in image_results:
                         image_results.append(image["original"])
                         count += 1
@@ -26,3 +28,5 @@ def getImages(query,number):
             images_is_present = False
             print(results["error"])
     return json.dumps(image_results)
+
+print(getImages('United States',5))
