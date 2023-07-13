@@ -16,10 +16,14 @@ app.config['SECRET_KEY'] = '7753df06aa5ee8fc7318aada4d2fafaa'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///country_information.db'
 db = SQLAlchemy(app)
 
+
 engine = db.create_engine('sqlite:///country_information.db')
-my_dict = {'Country': None, 'Country_Images': []}
-data_frame = pd.DataFrame(my_dict)
-data_frame.to_sql('country_info', con=engine, if_exists='append', index=False)
+class Country_Info(db.Model):
+    Country = db.Column(db.String(120), primary_key=True, unique=True, nullable=False)
+    Country_Images = db.Column(db.String(600), unique=False, nullable=False)
+    def __repr__(self):
+        return f"Country_Info('{self.Country}', '{self.Country_Images}')"
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,9 +35,7 @@ class User(db.Model):
         return f"User('{self.username}', '{self.email}')"
 
 with app.app_context():
-    inspector = inspect(engine)
-    if not inspector.has_table("country_info"):
-        db.create_all()
+    db.create_all()
 
 @app.route("/")
 @app.route("/home")
@@ -299,29 +301,38 @@ def country_information():
     valid_country = {country: code for country, code in countries.items() if code in regions}
 
     country = request.args.get('country')
-    country_info = search_country(country, list_of_names)
-    #engine = db.create_engine('sqlite:///country_information.db')
+    #country_info = search_country(country, list_of_names)
     images = None
     countryFacts = None
-    with engine.connect() as connection:
-        print("hello")
-        query_result = connection.execute(db.text("SELECT * FROM country_info;")).fetchall()
-        print(pd.DataFrame(query_result))
-        if len(query_result) >  0:
-            # Pull stored data that we want (country facts, images), set variables to be sent through render_template function
-            # countryFacts = query_result[0]['Country_Facts']
-            images_str = query_result[0]['Country_Images']
-            images = json.loads(images_str) 
-            print(f"If Query_result worked: {images}")
-        else:
-            # Call API to get images
-            images = getImages(country, 3)
-            print(f"Else Block: {images}")
-            images_str = json.dumps(images)  
-            query = db.text(f"INSERT INTO country_info (Country, Country_Images) VALUES ('{country}', '{images_str}');")
-            connection.execute(query)
-            check = connection.execute(db.text("SELECT * FROM country_info;")).fetchall()
-            print(pd.DataFrame(check))
+    print("hello")
+    #query_result = connection.execute(db.text(f"SELECT * FROM Country_Info")).fetchall()
+    #print(pd.DataFrame(query_result))
+    existing_country = Country_Info.query.filter_by(Country=country).first()
+    print(existing_country)
+    if existing_country:
+        # Pull stored data that we want (country facts, images), set variables to be sent through render_template function
+        # countryFacts = query_result[0]['Country_Facts']
+        print("Enter IF")
+        images_str = existing_country.Country_Images
+        images = json.loads(images_str) 
+        print(f"If Query_result worked: {images}")
+    else:
+        # Call API to get images
+        images = getImages(country, 3)
+        print(f"Else Block: {images}")
+        images_str = json.dumps(images) 
+        country_info = Country_Info(
+            Country=country,
+            Country_Images=images_str,
+        )
+        db.session.add(country_info)
+        db.session.commit()
+        #query = db.text(f"INSERT INTO country_info (Country, Country_Images) VALUES ('{country}', '{images_str}');")
+        #connection.execute(query)
+        #check = connection.execute(db.text("SELECT * FROM country_info;")).fetchall()
+        #print(pd.DataFrame(check))
+        query_result = Country_Info.query.all()
+        print(query_result)
 
     trending = TrendingVideos('AIzaSyAUTGuVJmt1eCA33Se8Nvu1Pl8_KYi8RdU')
     trending.get_most_popular_specific(valid_country[country],5)
@@ -329,7 +340,7 @@ def country_information():
     capital_city = capital(country)
     temp = getWeatherCF(capital_city)
     messa = message(temp)
-    return render_template('countryInformation.html', country=country, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city)
+    return render_template('countryInformation.html', country=country, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city)
     #if country_info:
         #return render_template('countryInformation.html', country=country, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city)
     #else:
