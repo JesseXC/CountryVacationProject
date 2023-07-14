@@ -9,6 +9,7 @@ from google_images import getImages
 import pandas as pd
 import json
 from sqlalchemy import inspect
+import ast
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
@@ -324,6 +325,12 @@ def country_information():
         query_result = Country_Info.query.all()
         print(query_result)
         print(images)
+    images2 = images.split()
+    images3 = ast.literal_eval(images)
+    imagg1 = str(images3[0])
+    print(type(images3))
+    print(images3)
+    print('theend')
     trending = TrendingVideos('AIzaSyAUTGuVJmt1eCA33Se8Nvu1Pl8_KYi8RdU')
     trending.get_most_popular_specific(valid_country[country],5)
     youtube_info = trending.get_video_information()
@@ -331,7 +338,7 @@ def country_information():
     temp = getWeatherCF(capital_city)
     messa = message(temp)
     print(type(images))
-    return render_template('countryInformation.html', country=country,images = images, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city)
+    return render_template('countryInformation.html', country=country,images = images, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city, ony=imagg1)
       
 @app.route("/register", methods=['GET', 'POST'])
 def register():
