@@ -328,6 +328,7 @@ def country_information():
     images2 = images.split()
     images3 = ast.literal_eval(images)
     imagg1 = str(images3[0])
+    imagg2 = str(images3[1])
     print(type(images3))
     print(images3)
     print('theend')
@@ -338,7 +339,7 @@ def country_information():
     temp = getWeatherCF(capital_city)
     messa = message(temp)
     print(type(images))
-    return render_template('countryInformation.html', country=country,images = images, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city, ony=imagg1)
+    return render_template('countryInformation.html', country=country,images = images, country_info = country_info, youtube_videos = youtube_info, temperature = temp, mess = messa,capital=capital_city, ony=imagg1, ony2=imagg2)
       
 @app.route("/register", methods=['GET', 'POST'])
 def register():
