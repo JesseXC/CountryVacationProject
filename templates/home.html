@@ -53,14 +53,12 @@
         <section id="hero">
           <!-- Hero section with captivating imagery and introductory text -->
           <h1>Wanderlust World: Explore Your Destination</h1>
-          <p>Enter the name of a country to begin your exploration:</p>
-          <form id="countryForm">
+          <p>Enter the name of a country and city to begin your exploration:</p>
+          <form id="destinationForm">
             <input type="text" id="countryInput" placeholder="Enter a country name">
+            <input type="text" id="cityInput" placeholder="Enter a city name">
             <input type="submit" value="Explore">
-            <form id="cityForm" action="{{ url_for('country_information') }}" method="GET">
-              <input type="text" id="cityInput" name="city" placeholder="Enter a city name">
-              <input type="submit" value="Search">
-            </form>
+          </form>
         </section>      
       </div>
     </div>

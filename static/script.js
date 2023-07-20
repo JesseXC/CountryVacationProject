@@ -254,13 +254,19 @@ const validCountries = [
 ]
 
 
-form.addEventListener('submit', function(event) {
+destinationForm.addEventListener('submit', function(event) {
   event.preventDefault();
 
   const enteredCountry = countryInput.value.trim();
+  const enteredCity = cityInput.value.trim();
 
   if (enteredCountry === '') {
     alert('Please enter a country name.');
+    return;
+  }
+
+  if (enteredCity === '') {
+    alert('Please enter a city name.');
     return;
   }
 
@@ -268,9 +274,10 @@ form.addEventListener('submit', function(event) {
     alert('Invalid country. Please enter a valid country.');
     return;
   }
-  
-  // Redirect to countryInformation route in Flask
-  window.location.href = `/countryInformation?country=${encodeURIComponent(enteredCountry)}`;
+
+  // Redirect to destinationInformation route in Flask
+  const url = `/countryInformation?country=${encodeURIComponent(enteredCountry)}&city=${encodeURIComponent(enteredCity)}`;
+  window.location.href = url;
 });
 
 function isValidCountry(country) {
