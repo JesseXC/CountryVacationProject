@@ -3,6 +3,37 @@
 <head>
   <title>Wanderlust World: Explore Your Destination</title>
   <link rel="stylesheet" href="../static/styles.css">
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #hero {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    #hero h1 {
+      margin-top: 0;
+    }
+    
+    #hero p {
+      margin-bottom: 10px;
+    }
+    
+    #hero form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    #hero form input[type="text"],
+    #hero form input[type="submit"] {
+      margin-right: 5px;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -16,9 +47,9 @@
       </div>
     </nav>
   </header> 
-  <div class = "container">
-    <div class = "outer">
-      <div class = "details">
+  <div class="container">
+    <div class="outer">
+      <div class="details">
         <section id="hero">
           <!-- Hero section with captivating imagery and introductory text -->
           <h1>Wanderlust World: Explore Your Destination</h1>
@@ -26,7 +57,10 @@
           <form id="countryForm">
             <input type="text" id="countryInput" placeholder="Enter a country name">
             <input type="submit" value="Explore">
-          </form>
+            <form id="cityForm" action="{{ url_for('country_information') }}" method="GET">
+              <input type="text" id="cityInput" name="city" placeholder="Enter a city name">
+              <input type="submit" value="Search">
+            </form>
         </section>      
       </div>
     </div>
