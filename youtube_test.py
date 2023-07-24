@@ -9,7 +9,6 @@ class TestTrendingVideos(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        #create a mock API object
         cls.api_mock = MagicMock()
         #set up the mock response for get_channel_info
         channel_info_mock = MagicMock()
@@ -25,7 +24,6 @@ class TestTrendingVideos(unittest.TestCase):
         self.trending_videos.api = self.api_mock
 
     def test_get_channel_statistics(self):
-        #mock the API response
         channel_id = 'your_channel_id'
         expected_info = {
             'title': 'Channel Title',
@@ -53,7 +51,6 @@ class TestTrendingVideos(unittest.TestCase):
         self.trending_videos.chartedVideos = [video_mock_1, video_mock_2]
         #call the method under test
         video_list = self.trending_videos.get_video_information()
-        #verify the results
         expected_video_list = [
             {
                 'title': 'Video 1',
