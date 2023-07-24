@@ -19,6 +19,7 @@ import requests
 from flask import Flask, session
 from flask_session import Session
 import secrets
+from attractions_api import get_attractions
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
@@ -102,8 +103,7 @@ def country_information():
             info = country_city_info(country,city,True,False)
     else:
         info = country_city_info(country,city,False,False)
-    return render_template('countryInformation.html', country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital= city, ony= info[6], ony2= info[7])
-
+    return render_template('countryInformation.html', city=city,country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital= info[5], ony= info[6], ony2= info[7])
 
 def country_city_info(country,city,countryBool,cityBool):
     valid_country = {country: code for country, code in countries.items() if code in regions}
@@ -112,41 +112,13 @@ def country_city_info(country,city,countryBool,cityBool):
     attractions = None
     if countryBool:
         print("IF COUNTRYBOOL")
-        #pull info for country
         images_str = Country_Info.query.filter_by(Country=country).first().Country_Images
         images = json.loads(images_str) 
-        #country_info = {
-            #Country_Info.query.filter_by(Country=country).first().Providence
-        #}
-        #country_info = 
         print(f"If Query_result worked: {images}")
         if cityBool:
-            city_attractions = City_Attraction.query.filter_by(Country=country, City=city).all()
-            print("IF CITYBOOL")
-            if city_attractions:
-                attractions = {
-                    'attract1': [
-                        city_attractions[0].Name,
-                        city_attractions[0].Image,
-                        city_attractions[0].Address,
-                        city_attractions[0].Tags
-                    ],
-                    'attract2': [
-                        city_attractions[1].Name if len(city_attractions) > 1 else None,
-                        city_attractions[1].Image if len(city_attractions) > 1 else None,
-                        city_attractions[1].Address if len(city_attractions) > 1 else None,
-                        city_attractions[1].Tags if len(city_attractions) > 1 else None
-                    ],
-                    'attract3': [
-                        city_attractions[2].Name if len(city_attractions) > 2 else None,
-                        city_attractions[2].Image if len(city_attractions) > 2 else None,
-                        city_attractions[2].Address if len(city_attractions) > 2 else None,
-                        city_attractions[2].Tags if len(city_attractions) > 2 else None
-                    ]
-                }
-                print(attractions)     
+            attractions = create_attractions(city,country)    
         else:
-            attractions = get_attractions()
+            attractions = get_attractions(city,country)
             for item in attractions: 
                 attraction_image = getImages(item['name'],1)
                 attraction_image = ast.literal_eval(attraction_image)
@@ -161,25 +133,14 @@ def country_city_info(country,city,countryBool,cityBool):
                     )
             db.session.add(attraction_information)
             db.session.commit()
+            attractions = create_attractions(city,country)
             query_result2 = City_Attraction.query.all()
             print("ELSE WHEN CITY BOOL FAILS: " + query_result2)
     else:
         images = getImages(country, 3)
         print(f"Else Block: for attractiosn and country info")
         images_str = json.dumps(images) 
-        #country_info = search_country(country, list_of_names)
-        country_information = Country_Info(
-            Country=country,
-            Country_Images=images_str,  
-            City = city
-            #Providence = country_info[2][1],
-            #SubRegion = country_info[3][1],
-            #Capital = country_info[4][1],
-            #Time = country_info[8][1][0],
-        )
-        attractions = get_attractions()
-        db.session.add(country_information)
-        db.session.commit()
+        attractions = get_attractions(city,country)
         for item in attractions: 
             attraction_image = getImages(item['name'],1)
             attraction_image = ast.literal_eval(attraction_image)
@@ -208,29 +169,42 @@ def country_city_info(country,city,countryBool,cityBool):
     imagg1 = str(images3[0])
     imagg2 = str(images3[1])
     trending = TrendingVideos('AIzaSyAUTGuVJmt1eCA33Se8Nvu1Pl8_KYi8RdU')
-    trending.get_most_popular_specific(valid_country[country],5)
-    youtube_info = trending.get_video_information()
+    if country not in valid_country.keys():
+        youtube_info = None
+    else:
+        trending.get_most_popular_specific(valid_country[country],5)
+        youtube_info = trending.get_video_information()
     capital_city = capital(country)
     temp = getWeatherCF(city)
     messa = message(temp)
     return images,country_info,youtube_info,temp,messa, None, imagg1,imagg2
 
-def get_attractions():
-    amadeus = Client(
-    client_id='uj8JO5AizIUIzeAoK0vF3qAVcMNi5EfD',
-    client_secret='dMudNMOE8FAcszeS'
-    )
-    response = []
-    #try:
-       # response = amadeus.reference_data.locations.points_of_interest.get(
-           # latitude=41.397158, 
-            #longitude=2.160873
-        #)
-        #print(response.data)
-    #except ResponseError as error:
-        #print(error)
-    #print(response)
-    return  [{'type': 'location', 'subType': 'POINT_OF_INTEREST', 'id': '9CB40CB5D0', 'self': {'href': 'https://test.api.amadeus.com/v1/reference-data/locations/pois/9CB40CB5D0', 'methods': ['GET']}, 'geoCode': {'latitude': 41.39165, 'longitude': 2.164772}, 'name': 'Casa Batlló', 'category': 'SIGHTS', 'rank': 5, 'tags': ['sightseeing', 'sights', 'museum', 'landmark', 'tourguide', 'restaurant', 'attraction', 'activities', 'commercialplace', 'shopping', 'souvenir']}, {'type': 'location', 'subType': 'POINT_OF_INTEREST', 'id': '4690B83DCA', 'self': {'href': 'https://test.api.amadeus.com/v1/reference-data/locations/pois/4690B83DCA', 'methods': ['GET']}, 'geoCode': {'latitude': 41.397987, 'longitude': 2.161159}, 'name': 'La Pepita', 'category': 'RESTAURANT', 'rank': 30, 'tags': ['restaurant', 'tapas', 'pub', 'bar', 'sightseeing', 'commercialplace']}, {'type': 'location', 'subType': 'POINT_OF_INTEREST', 'id': '3EF139D861', 'self': {'href': 'https://test.api.amadeus.com/v1/reference-data/locations/pois/3EF139D861', 'methods': ['GET']}, 'geoCode': {'latitude': 41.38827, 'longitude': 2.161604}, 'name': 'Brunch & Cake', 'category': 'RESTAURANT', 'rank': 30, 'tags': ['vegetarian', 'restaurant', 'breakfast', 'shopping', 'bakery', 'transport', 'patio', 'garden']}, {'type': 'location', 'subType': 'POINT_OF_INTEREST', 'id': 'AB3F122E3E', 'self': {'href': 'https://test.api.amadeus.com/v1/reference-data/locations/pois/AB3F122E3E', 'methods': ['GET']}, 'geoCode': {'latitude': 41.392376, 'longitude': 2.160919}, 'name': 'Cervecería Catalana', 'category': 'RESTAURANT', 'rank': 30, 'tags': ['restaurant', 'tapas', 'sightseeing', 'traditionalcuisine', 'bar', 'activities', 'commercialplace']}, {'type': 'location', 'subType': 'POINT_OF_INTEREST', 'id': '752402FCA2', 'self': {'href': 'https://test.api.amadeus.com/v1/reference-data/locations/pois/752402FCA2', 'methods': ['GET']}, 'geoCode': {'latitude': 41.40043, 'longitude': 2.15463}, 'name': 'Botafumeiro', 'category': 'RESTAURANT', 'rank': 30, 'tags': ['restaurant', 'seafood', 'sightseeing', 'professionalservices', 'transport', 'commercialplace']}, {'type': 'location', 'subType': 'POINT_OF_INTEREST', 'id': '5F1CED3994', 'self': {'href': 'https://test.api.amadeus.com/v1/reference-data/locations/pois/5F1CED3994', 'methods': ['GET']}, 'geoCode': {'latitude': 41.39148, 'longitude': 2.164981}, 'name': 'Casa Amatller', 'category': 'SIGHTS', 'rank': 100, 'tags': ['sightseeing', 'sights', 'museum', 'landmark', 'restaurant', 'tourguide', 'historicplace', 'historic', 'attraction', 'commercialplace', 'activities', 'shopping', 'events']}, {'type': 'location', 'subType': 'POINT_OF_INTEREST', 'id': '30601A1A90', 'self': {'href': 'https://test.api.amadeus.com/v1/reference-data/locations/pois/30601A1A90', 'methods': ['GET']}, 'geoCode': {'latitude': 41.390785, 'longitude': 2.167414}, 'name': 'Tapas 24', 'category': 'RESTAURANT', 'rank': 100, 'tags': ['restaurant', 'tapas', 'traditionalcuisine', 'sightseeing', 'commercialplace', 'transport', 'patio', 'garden', 'activities', 'bar']}, {'type': 'location', 'subType': 'POINT_OF_INTEREST', 'id': '15C8B8148C', 'self': {'href': 'https://test.api.amadeus.com/v1/reference-data/locations/pois/15C8B8148C', 'methods': ['GET']}, 'geoCode': {'latitude': 41.392677, 'longitude': 2.153942}, 'name': 'Dry Martini', 'category': 'NIGHTLIFE', 'rank': 100, 'tags': ['bar', 'restaurant', 'nightlife', 'club', 'sightseeing', 'attraction', 'activities']}, {'type': 'location', 'subType': 'POINT_OF_INTEREST', 'id': 'BD29CF2CCD', 'self': {'href': 'https://test.api.amadeus.com/v1/reference-data/locations/pois/BD29CF2CCD', 'methods': ['GET']}, 'geoCode': {'latitude': 41.399193, 'longitude': 2.159853}, 'name': 'Con Gracia', 'category': 'RESTAURANT', 'rank': 100, 'tags': ['restaurant', 'sightseeing', 'commercialplace', 'professionalservices', 'activities']}, {'type': 'location', 'subType': 'POINT_OF_INTEREST', 'id': '24DE6CE737', 'self': {'href': 'https://test.api.amadeus.com/v1/reference-data/locations/pois/24DE6CE737', 'methods': ['GET']}, 'geoCode': {'latitude': 41.390198, 'longitude': 2.156974}, 'name': 'Osmosis', 'category': 'RESTAURANT', 'rank': 100, 'tags': ['restaurant', 'shopping', 'transport', 'professionalservices']}]
+def create_attractions(city,country):
+    city_attractions = City_Attraction.query.filter_by(Country=country, City=city).all()
+    if city_attractions:
+        attractions = {
+            'attract1': [
+                city_attractions[0].Name,
+                city_attractions[0].Image,
+                city_attractions[0].Address,
+                ast.literal_eval(city_attractions[0].Tags)
+            ],
+            'attract2': [
+                city_attractions[1].Name if len(city_attractions) > 1 else None,
+                city_attractions[1].Image if len(city_attractions) > 1 else None,
+                city_attractions[1].Address if len(city_attractions) > 1 else None,
+                ast.literal_eval(city_attractions[1].Tags) if len(city_attractions) > 1 else None
+            ],
+            'attract3': [
+                city_attractions[2].Name if len(city_attractions) > 2 else None,
+                city_attractions[2].Image if len(city_attractions) > 2 else None,
+                city_attractions[2].Address if len(city_attractions) > 2 else None,
+                ast.literal_eval(city_attractions[2].Tags) if len(city_attractions) > 2 else None
+            ]
+        }
+        return attractions
+    else:
+        return None
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
