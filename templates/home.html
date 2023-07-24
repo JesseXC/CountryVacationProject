@@ -41,7 +41,20 @@
       <div class="navbar-container">
         <a class="navbar-logo" href="/home">Wanderlust World</a>
         <ul class="navbar-links">
+          {% if not registration_success %}
           <li><a href="/register">Register</a></li>
+          <li><a href="/login">Log In</a></li>
+          {% else %}
+          <li class="dropdown">
+            <button>History</button>
+            <div class="dropdown-options">
+              {% for country, city in user_country_city %}
+                <a href="/countryInformation?country={{ country }}&city={{ city }}">{{ country }}, {{ city }}</a>
+              {% endfor %}
+            </div>
+          </li>
+          <li><a href="/signout">Sign Out</a></li>
+          {% endif %}
           <li><a href="/home">Home</a></li>
         </ul>
       </div>

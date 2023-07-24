@@ -17,9 +17,11 @@
           </div>
         </nav>
       </header>
+    <h1> {{country}} brochure </h1>
     <div class="tabs">
         <div class="tab-header">
             <div class="active">Country Facts</div>
+            <div>Attractions and Beauty</div>
             <div>Weather Report</div>
             <div>Media and Trends</div>
             <div>Tickets</div>
@@ -42,6 +44,18 @@
                     </div>
                     <div class="grid-item">
                         <img src= {{ony2}} alt="Image">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h1>Attractions</h1>
+                <p> The weather in {{capital}} is {{temperature}}F°! </p>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <img src= static/weather-template.png>
+                    </div>
+                    <div class="grid-item">
+                        <p>{{mess}}</p>
                     </div>
                 </div>
             </div>

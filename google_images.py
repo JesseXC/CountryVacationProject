@@ -29,4 +29,3 @@ def getImages(query,number):
             print(results["error"])
     return json.dumps(image_results)
 
-print(getImages('United States',5))
