@@ -177,7 +177,7 @@ def getWeatherCF(location):
         datadic['condition'].append(condition)
         return temp
     except BaseException:
-        print("I dont think that is a place!")
+        return None
         
 def message(temp):
     if temp < 40:
