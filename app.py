@@ -105,7 +105,6 @@ def country_information():
         info = country_city_info(country,city,False,False)
     return render_template('countryInformation.html', city=city,country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital= info[5], ony= info[6], ony2= info[7])
 
-
 def country_city_info(country,city,countryBool,cityBool):
     valid_country = {country: code for country, code in countries.items() if code in regions}
     images = None
@@ -176,9 +175,9 @@ def country_city_info(country,city,countryBool,cityBool):
         trending.get_most_popular_specific(valid_country[country],5)
         youtube_info = trending.get_video_information()
     capital_city = capital(country)
-    temp = getWeatherCF(capital_city)
+    temp = getWeatherCF(city)
     messa = message(temp)
-    return images,country_info,youtube_info,temp,messa,capital_city,imagg1,imagg2
+    return images,country_info,youtube_info,temp,messa, None, imagg1,imagg2
 
 def create_attractions(city,country):
     city_attractions = City_Attraction.query.filter_by(Country=country, City=city).all()
