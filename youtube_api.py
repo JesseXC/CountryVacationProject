@@ -55,10 +55,17 @@ class TrendingVideos:
             print(pd.DataFrame(query_result))
     
     def get_most_popular_specific(self,country,num):
-        video_by_chart = self.api.get_videos_by_chart(chart="mostPopular", region_code=f"{country}", count=num)
-        for video in video_by_chart.items:
-            self.chartedVideos.append(video)
-        return self.chartedVideos
+        try:
+            video_by_chart = self.api.get_videos_by_chart(chart="mostPopular", region_code=f"{country}", count=num)
+            if not video_by_chart.items:
+                return None
+
+            for video in video_by_chart.items:
+                self.chartedVideos.append(video)
+            return self.chartedVideos
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
     
     def get_most_popular_random(self, num_videos):
         response = self.api.get_i18n_regions(parts=['snippet']).items
