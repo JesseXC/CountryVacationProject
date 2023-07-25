@@ -60,36 +60,39 @@
             {% if attractions %}
             {% if not country_info %}
         <div class = "active">
-            <h1>Attractions</h1>
-            <p> The weather in {{capital}} is {{temperature}}F°! </p>
-            <div class="grid-container">
-                <div class="grid-item">
-                    <img src= static/weather-template.png>
-                </div>
-                <div class="grid-item">
-                    <p>{{mess}}</p>
-                </div>
-            </div>
         </div>
         {% else %}
         <div>
-            <h1>Attractions</h1>
-            <p> The weather in {{capital}} is {{temperature}}F°! </p>
             <div class="grid-container">
                 <div class="grid-item">
-                    <img src= static/weather-template.png>
+                <h1>{{place1}}</h1>
+                <img src= {{pic1}} alt="Image">
                 </div>
                 <div class="grid-item">
-                    <p>{{mess}}</p>
+                <p>Related labels: {{descrip1}}
                 </div>
-            </div>
+                <div class="grid-item">
+                <p>Related Labels: {{descrip2}}</p>
+                <h1>{{place2}}</h1>
+                </div>
+                <div class="grid-item">
+                <img src= {{pic2}} alt="Image">
+                </div>
+                <div class="grid-item">
+                <h1>{{place3}}</h1>
+                <img src= {{pic3}} alt="Image">
+                </div>
+                <div class="grid-item">
+                <p>Related labels: {{descrip3}}
+                </div>
         </div>
+    </div>
         {% endif %}
         {% endif %}
             {% if mess and temperature %}
             <div>
                 <h1>What about the weather?</h1>
-                <p> The weather in {{capital}} is {{temperature}}F°! </p>
+                <p> The weather in {{city}} is {{temperature}}F°! </p>
                 <div class="grid-container">
                     <div class="grid-item">
                         <img src= static/weather-template.png>
