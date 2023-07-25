@@ -48,9 +48,11 @@
           <li class="dropdown">
             <button>History</button>
             <div class="dropdown-options">
+              {% if user_country_city%}
               {% for country, city in user_country_city %}
                 <a href="/countryInformation?country={{ country }}&city={{ city }}">{{ country }}, {{ city }}</a>
               {% endfor %}
+              {%endif%}
             </div>
           </li>
           <li><a href="/signout">Sign Out</a></li>
