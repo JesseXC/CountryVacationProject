@@ -173,3 +173,26 @@ body{
     display: flex;
     justify-content: center;
 }
+
+.ticket-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+  }
+  
+  .ticket-results {
+    width: 50%; /* Adjust the width as needed */
+    padding: 20px;
+  }
+  
+  .flight-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .flight-table th, .flight-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
