@@ -76,8 +76,11 @@ def home():
     if registration_success:
         name = session.get('username')
         logged_in_user = User.query.filter_by(username=name).first()
-        user_country_city = logged_in_user.country_city.split('.')
-        user_country_city = [entry.split(',') for entry in user_country_city if entry]
+        if logged_in_user:
+            user_country_city = logged_in_user.country_city.split('.')
+            user_country_city = [entry.split(',') for entry in user_country_city if entry]
+        else:
+            user_country_city = None
         print(user_country_city)
     return render_template('home.html',registration_success=registration_success,user_country_city= user_country_city)
 
@@ -97,6 +100,8 @@ def country_information():
                 print("Updated country_city:", logged_in_user.country_city)
     existing_country = Country_Info.query.filter_by(Country=country).first()
     existing_city = Country_Info.query.filter_by(Country=country,City=city).first()
+    print(existing_city)
+    print(existing_country)
     if existing_country:
         if existing_city:
             info = country_city_info(country,city,True,True)
@@ -117,6 +122,7 @@ def country_city_info(country,city,countryBool,cityBool):
         images = json.loads(images_str) 
         print(f"If Query_result worked: {images}")
         if cityBool:
+            print("IF CITY BOOL")
             attractions = create_attractions(city,country)    
         else:
             store_attractions(city,country)
@@ -128,6 +134,13 @@ def country_city_info(country,city,countryBool,cityBool):
         images_str = json.dumps(images)
         store_attractions(city,country)
         attractions = create_attractions(city,country)
+        country_info = Country_Info(
+            Country=country,
+            City=city,
+            Country_Images=images_str,
+        )
+        db.session.add(country_info)
+        db.session.commit()
         query_result2 = City_Attraction.query.all()
         query_result = Country_Info.query.all()
         print(query_result)
@@ -174,6 +187,7 @@ def create_attractions(city,country):
                 ast.literal_eval(city_attractions[2].Tags) if len(city_attractions) > 2 else None
             ]
         }
+        print(attractions)
         return attractions
     else:
         return None
