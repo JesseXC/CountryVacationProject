@@ -3,6 +3,15 @@
 from amadeus import Client, ResponseError
 import requests
 
+def get_city(city,country):
+    amadeus = Client(
+        client_id='XL0O1puwmIuXvtHVgZQmgzjjAQkAmoKW',
+        client_secret='Li9lNYdIKT162SRB'
+    )
+    response = amadeus.reference_data.locations.cities.get(countryCode=get_iso_country_code(country), keyword = city,max = 5).data
+    print(response)
+    return response[0]['geoCode']['latitude'],response[0]['geoCode']['longitude']
+
 def get_iso_country_code(country):
     url = f'https://restcountries.com/v3/name/{country}'
     response = requests.get(url)
@@ -36,16 +45,69 @@ def get_attractions(city, country):
         client_id='XL0O1puwmIuXvtHVgZQmgzjjAQkAmoKW',
         client_secret='Li9lNYdIKT162SRB'
     )
-    latitude, longitude = get_city_coordinates(city, country)
+    latitude, longitude = get_city(city, country)
     if not latitude or not longitude:
         return None
     print(latitude,longitude)
+    #print(str(float(latitude)),str(float(longitude)))
+    #print(amadeus.reference_data.locations.points_of_interest.get(
+           # latitude=41.397158,
+            #longitude=2.060873,
+           # radius = 10
+        #).data)
     try:
         response = amadeus.reference_data.locations.points_of_interest.get(
-            latitude=int(latitude),
-            longitude=int(longitude)
+            latitude=float(latitude),
+            longitude=float(longitude),
+            radius = 20
         )
         return response.data
     except ResponseError as error:
         print("fail")
         return None
+    
+def get_flights(airport1,airport2,departureDate,passengers):
+    amadeus = Client(
+        client_id='XL0O1puwmIuXvtHVgZQmgzjjAQkAmoKW',
+        client_secret='Li9lNYdIKT162SRB'
+    )
+    try:
+        response = amadeus.shopping.flight_offers_search.get(originLocationCode=f'{airport1}', destinationLocationCode=f'{airport2}', departureDate=f'{departureDate}', adults=f'{passengers}',max=10)
+    except ResponseError as error:
+        print("fail")
+        return None
+    flights = response.data
+
+    flight_info = create_flight_info(flights)
+    return flight_info
+
+
+def create_flight_info(flights):
+    flight_info = {}
+    i = 1
+    for flight in flights:
+        if not isinstance(flight,dict):
+            print("skipped")
+            continue
+        segments = flight['itineraries'][0]['segments']  # Assuming there's only one itinerary per flight
+        flight_info[f'flight{i}'] = {
+            'numberofBookableSeats': flight['numberOfBookableSeats'],
+            'oneWay': flight['oneWay'],
+            'totalDuration': flight['itineraries'][0]['duration'],
+            'currency':flight['price']['currency'],
+            'total_price':flight['price']['grandTotal'],
+            'segments': []
+        }
+        for segment in segments:
+            segment_info = {
+                'departureAirport': segment['departure']['iataCode'],
+                'departureDate': segment['departure']['at'],
+                'arrivalAirport': segment['arrival']['iataCode'],
+                'arrivalDate': segment['arrival']['at'],
+                'carrierCode': segment['carrierCode'],
+                'number': segment['number'],
+                'duration': segment['duration']
+            }
+            flight_info[f'flight{i}']['segments'].append(segment_info)
+        i += 1
+    return flight_info
