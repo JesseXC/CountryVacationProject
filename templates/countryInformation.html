@@ -90,18 +90,18 @@
         {% endif %}
         {% endif %}
             {% if mess and temperature %}
-            <div>
-                <h1>What about the weather?</h1>
-                <p> The weather in {{city}} is {{temperature}}F°! </p>
+            <div class="weather-section">
+                <h2>What's the Weather Like in {{city}}?</h2>
+                <p>The current temperature in {{city}} is {{temperature}}°F!</p>
                 <div class="grid-container">
-                    <div class="grid-item">
-                        <img src= static/weather-template.png>
-                    </div>
-                    <div class="grid-item">
-                        <p>{{mess}}</p>
-                    </div>
+                  <div class="grid-item">
+                    <img src="static/weather-template.png" alt="Weather Icon">
+                  </div>
+                  <div class="grid-item large-text-box">
+                    <p>{{ mess }}</p>
+                  </div>
                 </div>
-            </div>
+              </div>
             {% endif %}
             {% if youtube_videos %}
             <div>
