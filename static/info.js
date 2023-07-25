@@ -58,32 +58,50 @@ function displayTicketInformation(ticketData) {
     return;
   }
 
-  // Iterate through each flight and create elements to display the flight information
+  // Create a table to display the flight information
+  const table = document.createElement("table");
+  table.className = "flight-table";
+
+  // Create table header
+  const tableHeader = document.createElement("tr");
+  const headerLabels = ["Flight Number", "Available Seats", "Duration", "Price"];
+  for (const label of headerLabels) {
+    const th = document.createElement("th");
+    th.textContent = label;
+    tableHeader.appendChild(th);
+  }
+  table.appendChild(tableHeader);
+
+  // Iterate through each flight and create table rows for flight information
   for (const flightKey in ticketData) {
     const flight = ticketData[flightKey];
-    const flightElement = document.createElement("div");
-    flightElement.className = "flight-info";
+    const tableRow = document.createElement("tr");
 
-    // Create elements to display flight details (you can customize this part as needed)
-    const flightNumberElement = document.createElement("p");
-    flightNumberElement.textContent = `Flight Number: ${flightKey}`;
+    // Create table cells for flight details
+    const flightNumberCell = document.createElement("td");
+    flightNumberCell.textContent = flightKey;
 
-    const seatsElement = document.createElement("p");
-    seatsElement.textContent = `Available Seats: ${flight.numberofBookableSeats}`;
+    const seatsCell = document.createElement("td");
+    seatsCell.textContent = flight.numberofBookableSeats;
 
-    const durationElement = document.createElement("p");
-    durationElement.textContent = `Duration: ${flight.totalDuration}`;
+    const durationCell = document.createElement("td");
+    durationCell.textContent = flight.totalDuration;
 
-    const priceElement = document.createElement("p");
-    priceElement.textContent = `Price: ${flight.currency} ${flight.total_price}`;
+    const priceCell = document.createElement("td");
+    priceCell.textContent = `${flight.currency} ${flight.total_price}`;
 
-    flightElement.appendChild(flightNumberElement);
-    flightElement.appendChild(seatsElement);
-    flightElement.appendChild(durationElement);
-    flightElement.appendChild(priceElement);
+    // Append cells to the table row
+    tableRow.appendChild(flightNumberCell);
+    tableRow.appendChild(seatsCell);
+    tableRow.appendChild(durationCell);
+    tableRow.appendChild(priceCell);
 
-    // Append the flight information element to the flight results container
-    flightResultsContainer.appendChild(flightElement);
+    // Append the table row to the table
+    table.appendChild(tableRow);
   }
+
+  // Append the table to the flight results container
+  flightResultsContainer.appendChild(table);
 }
+
 console.log("JavaScript code executed!");
