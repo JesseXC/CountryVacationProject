@@ -20,17 +20,26 @@
     <h1> {{country}},{{city}} brochure </h1>
     <div class="tabs">
         <div class="tab-header">
+            {%if country_info%}
             <div class="active">Country Facts</div>
+            {%endif%}
+            {%if attractions%}
             <div>Attractions and Beauty</div>
+            {%endif%}
+            {%if mess and temperature%}
             <div>Weather Report</div>
+            {%endif%}
+            {%if youtube_videos%}
             <div>Media and Trends</div>
+            {%endif%}
             <div>Tickets</div>
         </div>
         <div class="tab-content">
+            {% if country_info %}
             <div class="active">
                 <div class="grid-container">
                     <div class="grid-item">
-                        <img src= {{ony}} alt="Image">
+                        <img src= {{ony}} alt="https://www.burningcompass.com/world/maps/world-map.jpg">
                     </div>
                     <div class="grid-item">
                         <p>Welcome, dear traveler, to the mesmerizing land of {{country_info[0][1]}}, a truly captivating destination that beckons you to uncover its hidden wonders! Prepare to be enraptured by the sheer beauty and diversity of this remarkable country. As you step foot into its borders, you'll discover that {{country_info[0][1]}} goes by various aliases, including {{country_info[1][1]}}. This charming nation is nestled in the heart of {{country_info[2][1]}}, where it gracefully claims its place as a jewel within the magnificent {{country_info[3][1]}} subregion.</p>
@@ -47,18 +56,37 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <h1>Attractions</h1>
-                <p> The weather in {{capital}} is {{temperature}}F°! </p>
-                <div class="grid-container">
-                    <div class="grid-item">
-                        <img src= static/weather-template.png>
-                    </div>
-                    <div class="grid-item">
-                        <p>{{mess}}</p>
-                    </div>
+            {% endif %}
+            {% if attractions %}
+            {% if not country_info %}
+        <div class = "active">
+            <h1>Attractions</h1>
+            <p> The weather in {{capital}} is {{temperature}}F°! </p>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img src= static/weather-template.png>
+                </div>
+                <div class="grid-item">
+                    <p>{{mess}}</p>
                 </div>
             </div>
+        </div>
+        {% else %}
+        <div>
+            <h1>Attractions</h1>
+            <p> The weather in {{capital}} is {{temperature}}F°! </p>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img src= static/weather-template.png>
+                </div>
+                <div class="grid-item">
+                    <p>{{mess}}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+            {% if mess and temperature %}
             <div>
                 <h1>What about the weather?</h1>
                 <p> The weather in {{capital}} is {{temperature}}F°! </p>
@@ -71,6 +99,8 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
+            {% if youtube_videos %}
             <div>
                 <h1>Media and Trends</h1>
                 <ul class="media-list">
@@ -87,14 +117,15 @@
                     {% endfor %}
                 </ul>
             </div>
+            {% endif %}
             <div id="flight-booking">
                 <h2>Flight Booking</h2>
 
                 <form id="flight-form">
-                  <label for="departure">Departure:</label>
+                  <label for="departure">Departure (Aiport Name):</label>
                   <input type="text" id="departure" name="departure" required>
       
-                  <label for="arrival">Arrival:</label>
+                  <label for="arrival">Arrival (Airport Name):</label>
                   <input type="text" id="arrival" name="arrival" required>
       
                   <label for="travel-date">Travel Date:</label>

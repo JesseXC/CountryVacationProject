@@ -19,8 +19,9 @@ import requests
 from flask import Flask, session
 from flask_session import Session
 import secrets
+import json
 from attractions_api import get_attractions
-
+from attractions_api import get_flights
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
@@ -103,7 +104,7 @@ def country_information():
             info = country_city_info(country,city,True,False)
     else:
         info = country_city_info(country,city,False,False)
-    return render_template('countryInformation.html', city=city,country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital= info[5], ony= info[6], ony2= info[7])
+    return render_template('countryInformation.html', city=city,country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital= info[5], ony= info[6], ony2= info[7],attractions = info[8])
 
 def country_city_info(country,city,countryBool,cityBool):
     valid_country = {country: code for country, code in countries.items() if code in regions}
@@ -118,43 +119,15 @@ def country_city_info(country,city,countryBool,cityBool):
         if cityBool:
             attractions = create_attractions(city,country)    
         else:
-            attractions = get_attractions(city,country)
-            for item in attractions: 
-                attraction_image = getImages(item['name'],1)
-                attraction_image = ast.literal_eval(attraction_image)
-                attraction_information = City_Attraction(
-                    City = city,
-                    Country = country,
-                    Image = attraction_image[0],
-                    Name = item['name'],
-                    Address = item['geoCode']['latitude'], 
-                    Tags = json.dumps(item['tags']),
-                    Summary = get_summary(item['name'])
-                    )
-            db.session.add(attraction_information)
-            db.session.commit()
+            store_attractions(city,country)
             attractions = create_attractions(city,country)
             query_result2 = City_Attraction.query.all()
-            print("ELSE WHEN CITY BOOL FAILS: " + query_result2)
     else:
         images = getImages(country, 3)
         print(f"Else Block: for attractiosn and country info")
-        images_str = json.dumps(images) 
-        attractions = get_attractions(city,country)
-        for item in attractions: 
-            attraction_image = getImages(item['name'],1)
-            attraction_image = ast.literal_eval(attraction_image)
-            attraction_information = City_Attraction(
-                City = city,
-                Country = country,
-                Image = attraction_image[0],
-                Name = item['name'],
-                Address = item['geoCode']['latitude'], 
-                Tags = json.dumps(item['tags']),
-                Summary = get_summary(item['name'])
-                )
-            db.session.add(attraction_information)
-            db.session.commit()
+        images_str = json.dumps(images)
+        store_attractions(city,country)
+        attractions = create_attractions(city,country)
         query_result2 = City_Attraction.query.all()
         query_result = Country_Info.query.all()
         print(query_result)
@@ -174,10 +147,9 @@ def country_city_info(country,city,countryBool,cityBool):
     else:
         trending.get_most_popular_specific(valid_country[country],5)
         youtube_info = trending.get_video_information()
-    capital_city = capital(country)
     temp = getWeatherCF(city)
     messa = message(temp)
-    return images,country_info,youtube_info,temp,messa, None, imagg1,imagg2
+    return images,country_info,youtube_info,temp,messa, None, imagg1,imagg2,attractions
 
 def create_attractions(city,country):
     city_attractions = City_Attraction.query.filter_by(Country=country, City=city).all()
@@ -205,6 +177,27 @@ def create_attractions(city,country):
         return attractions
     else:
         return None
+    
+def store_attractions(city,country):
+    attractions = get_attractions(city,country)
+    if attractions is None:
+        return None
+    else: 
+        for item in attractions: 
+            attraction_image = getImages(item['name'],1)
+            attraction_image = ast.literal_eval(attraction_image)
+            attraction_information = City_Attraction(
+                City = city,
+                Country = country,
+                Image = attraction_image[0],
+                Name = item['name'],
+                Address = item['geoCode']['latitude'], 
+                Tags = json.dumps(item['tags']),
+                Summary = get_summary(item['name'])
+                )
+            db.session.add(attraction_information)
+            db.session.commit()
+        return True
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -247,6 +240,18 @@ def login():
 def signout():
     session.clear()  # Clear all session data
     return redirect(url_for('home'))  # Redirect to the home page
+
+@app.route('/get_ticket_info', methods=['POST'])
+def get_ticket_info():
+    data = request.get_json()
+    departure = data['departure']
+    arrival = data['arrival']
+    travel_date = data['travelDate']
+    passengers = data['passengers']
+    print(data)
+    ticket_info = get_flights(departure,arrival,travel_date,passengers)
+    print(ticket_info)
+    return ticket_info
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
