@@ -42,10 +42,14 @@ def get_attractions(city, country):
     print(latitude,longitude)
     try:
         response = amadeus.reference_data.locations.points_of_interest.get(
-            latitude=int(latitude),
-            longitude=int(longitude)
+            latitude=float(latitude),
+            longitude=float(longitude)
         )
+        print('jijijiijijijijiji')
+        print(response.data)
+        print('aoaoaoaoaoa')
         return response.data
     except ResponseError as error:
         print("fail")
         return None
+

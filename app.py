@@ -103,7 +103,11 @@ def country_information():
             info = country_city_info(country,city,True,False)
     else:
         info = country_city_info(country,city,False,False)
-    return render_template('countryInformation.html', city=city,country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital= info[5], ony= info[6], ony2= info[7])
+    placy1 = info[-1]['attract1'][0]
+    placy2 = info[-1]['attract2'][0]
+    placy3 = info[-1]['attract3'][0]
+    print(info[-1])
+    return render_template('countryInformation.html', city=city,country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital=city, ony= info[6], ony2= info[7], place1=placy1, place2=placy2, place3=placy3)
 
 def country_city_info(country,city,countryBool,cityBool):
     valid_country = {country: code for country, code in countries.items() if code in regions}
@@ -135,7 +139,6 @@ def country_city_info(country,city,countryBool,cityBool):
             db.session.commit()
             attractions = create_attractions(city,country)
             query_result2 = City_Attraction.query.all()
-            print("ELSE WHEN CITY BOOL FAILS: " + query_result2)
     else:
         images = getImages(country, 3)
         print(f"Else Block: for attractiosn and country info")
@@ -177,7 +180,7 @@ def country_city_info(country,city,countryBool,cityBool):
     capital_city = capital(country)
     temp = getWeatherCF(city)
     messa = message(temp)
-    return images,country_info,youtube_info,temp,messa, None, imagg1,imagg2
+    return images,country_info,youtube_info,temp,messa, None, imagg1,imagg2, attractions
 
 def create_attractions(city,country):
     city_attractions = City_Attraction.query.filter_by(Country=country, City=city).all()
@@ -247,6 +250,7 @@ def login():
 def signout():
     session.clear()  # Clear all session data
     return redirect(url_for('home'))  # Redirect to the home page
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
