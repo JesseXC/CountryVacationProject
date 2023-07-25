@@ -87,11 +87,11 @@ if the country doesn't exist, it prints a message and returns None, effectively 
 when similar matches are presented, the function calls itself recursively to allow the user to try again with the new search_option. 
 This way, the user can retry their search without having to restart the entire program.'''
 
-while True:
-    country_input = input("Enter country name (or 'q' to quit): ")
-    if country_input.lower() == 'q':
-        break
+# while True:
+#     country_input = input("Enter country name (or 'q' to quit): ")
+#     if country_input.lower() == 'q':
+#         break
 
-    country_info = search_country(country_input, list_of_names)
-    if country_info:
-        print(country_info)
+#     country_info = search_country(country_input, list_of_names)
+#     if country_info:
+#         print(country_info)
