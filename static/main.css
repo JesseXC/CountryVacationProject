@@ -115,7 +115,7 @@ a.article-title:hover {
 
 .navbar-links li a:hover {
   background-color: #ffa100;
-  color: #fff;
+  color: #333;
 }
 
 .navbar-links li a.signup-link {
