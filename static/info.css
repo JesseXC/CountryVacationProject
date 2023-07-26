@@ -24,7 +24,7 @@ body{
     width:100%;
     height:60px;
     border-radius:10px;
-    background:rgba(22, 86, 125, 0.8)
+    background: #222;
 }
 .tabs .tab-header > div{
     flex:1;
@@ -321,3 +321,24 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle text shadow */
     text-decoration-line: underline;
   }
+
+/* ... (previous styles) ... */
+
+/* Apply Zapfino font and orange color to the Wanderlust World */
+.navbar-logo {
+  color: #ffa100; /* Orange color for Wanderlust World */
+}
+
+/* Apply orange color to the Home and Register buttons in the navigation bar */
+.navbar-links li a {
+  color: #ffa100; /* Orange color for navigation links */
+}
+
+/* Apply orange color to the tab headers (Country Facts, Attractions and Beauty, etc.) */
+.tabs .tab-header > div {
+  color: #ffa100; /* Orange color for tab headers */
+}
+
+
+
+/* ... (previous styles) ... */
