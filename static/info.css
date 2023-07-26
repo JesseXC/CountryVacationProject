@@ -185,7 +185,7 @@ h1 {
   
   /* Style the media list items with a background color, shadow, and padding */
   .media-list li {
-    background-color: #cbf4f8; /* Adjust the color as needed */
+    background-color: #ecf6f7; /* Adjust the color as needed */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     border-radius: 10px; /* Add rounded corners for a nicer look */
     margin-bottom: 20px;
@@ -270,7 +270,8 @@ h1 {
   .ticket-results {
     width: 80%; /* Adjust the width as needed */
     padding: 20px;
-    
+  }
+
   .weather-section {
     margin-top: 30px;
     padding: 20px;
