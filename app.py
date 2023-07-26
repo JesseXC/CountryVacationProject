@@ -109,7 +109,16 @@ def country_information():
             info = country_city_info(country,city,True,False)
     else:
         info = country_city_info(country,city,False,False)
-    return render_template('countryInformation.html', city=city,country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital= info[5], ony= info[6], ony2= info[7],attractions = info[8])
+    placy1 = info[-1]['attract1'][0]
+    imy1 = info[-1]['attract1'][1]
+    crip1 = info[-1]['attract1'][3]
+    placy2 = info[-1]['attract2'][0]
+    imy2 = info[-1]['attract2'][1]
+    crip2 = info[-1]['attract2'][3]
+    placy3 = info[-1]['attract3'][0]
+    imy3 = info[-1]['attract3'][1]
+    crip3 = info[-1]['attract3'][3]
+    return render_template('countryInformation.html', city=city,country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital= info[5], ony= info[6], ony2= info[7], attractions = info[8], place1=placy1, pic1=imy1, descrip1 =crip1, place2=placy2, pic2= imy2, descrip2=crip2, place3=placy3, pic3=imy3, descrip3=crip3)
 
 def country_city_info(country,city,countryBool,cityBool):
     valid_country = {country: code for country, code in countries.items() if code in regions}
