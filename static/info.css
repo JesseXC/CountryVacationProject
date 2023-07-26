@@ -270,5 +270,43 @@ h1 {
   .ticket-results {
     width: 80%; /* Adjust the width as needed */
     padding: 20px;
+    
+  .weather-section {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow to the entire section */
+  }
+  
+  .weather-section h2 {
+    color: #333;
+    font-size: 24px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+  }
+  
+  .weather-section p {
+    font-size: 18px;
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .weather-section img {
+    max-width: 100%;
+    height: auto;
+    width: 1000px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow to the image */
+  }
+  
+  .large-text-box {
+    background-color: #e0ecfa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow to the large text box */
   }
   
