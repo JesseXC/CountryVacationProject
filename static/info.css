@@ -154,26 +154,60 @@ body{
     background-color: #fff;
     color: #333;
   }
+/* Center the <h1> element */
+/* Center the <h1> element */
+h1 {
+    text-align: center;
+  }
+  
+  /* Add some styles to make the <h1> more visually appealing */
+  h1 {
+    font-size: 32px;
+    color: #101011; /* Adjust the color as needed */
+    margin-bottom: 30px; /* Add some spacing below the heading */
+    text-transform: uppercase; /* Convert the text to uppercase for emphasis */
+    letter-spacing: 2px; /* Add some letter spacing for a modern look */
+    font-weight: bold; /* Make the heading bold for prominence */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle text shadow */
+  }
+  
+  /* Center the media title and align description to the left */
   .media-title {
     text-align: center;
-}
-
-.media-description {
-    text-align: center;
-}
-
-
-.media-list li {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .media-description {
+    font-weight: bold;
+    font-size: 20px;
+    color: #555; /* Adjust the color as needed */
+    text-align: left; /* Align the description text to the left */
+  }
+  
+  /* Style the media list items with a background color, shadow, and padding */
+  .media-list li {
+    background-color: #cbf4f8; /* Adjust the color as needed */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 10px; /* Add rounded corners for a nicer look */
     margin-bottom: 20px;
-    padding: 20px;
-}
-
-.media-video {
+    padding: 20px; /* Reduce the padding to make it less overwhelming */
+    list-style-type: decimal; /* Use decimal numbering for the list items */
+  }
+  
+  /* Apply a pretty photo frame around the video */
+  .media-video {
     display: flex;
     justify-content: center;
-}
 
+  }
+  
+
+/* Apply styles to the YouTube video information (views and channel) */
+.youtubeInfo {
+  font-weight: bold;
+  font-size: 20px;
+  color: #555; /* Adjust the color as needed */
+  margin-bottom: 5px;
+}
 .ticket-container {
     display: flex;
     justify-content: space-between;
@@ -181,18 +215,60 @@ body{
     margin-top: 20px;
   }
   
-  .ticket-results {
-    width: 50%; /* Adjust the width as needed */
-    padding: 20px;
-  }
-  
-  .flight-table {
-    width: 100%;
+/* Add styles to the flight table */
+.flight-table {
+    width: 180%;
     border-collapse: collapse;
+    margin-top: 20px;
   }
   
   .flight-table th, .flight-table td {
     border: 1px solid #ccc;
-    padding: 8px;
+    padding: 12px;
     text-align: left;
   }
+  
+  /* Apply some styling to the table header */
+  .flight-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  /* Apply alternating background color to table rows for better readability */
+  .flight-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Add hover effect to table rows for a more interactive feel */
+  .flight-table tr:hover {
+    background-color: #e1e1e1;
+  }
+  
+  /* Increase the font size and bold the flight number for emphasis */
+  .flight-table td:first-child {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  /* Style the flight price cell */
+  .flight-table td:last-child {
+    font-weight: bold;
+    color: #007bff; /* You can choose your preferred color for prices */
+  }
+  
+  /* Center the flight information in the table */
+  .flight-table td {
+    text-align: center;
+  }
+  
+  /* Add some space between cells for better readability */
+  .flight-table td:not(:last-child) {
+    padding-right: 20px;
+  }
+  
+  /* Make the table container wider for larger tables */
+  .ticket-results {
+    width: 80%; /* Adjust the width as needed */
+    padding: 20px;
+  }
+  

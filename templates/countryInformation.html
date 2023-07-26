@@ -107,12 +107,12 @@
                     {% for video in youtube_videos %}
                         <li>
                             <h2 class="media-title">{{ video['title'] }}</h2>
-                            <p>Views: {{ video['viewCount'] }}</p>
-                            <p>Channel: {{video['channel']}}</p>
+                            <p class="youtubeInfo">Views: {{ video['viewCount'] }}</p>
+                            <p class="youtubeInfo">Channel: {{video['channel']}}</p>
                             <div class="media-video">
                                 <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video['link'] }}" frameborder="0" allowfullscreen></iframe>
                             </div>
-                            <p class="media-description">{{ video['description'] }}</p>
+                            <p class="media-description">Description: {{ video['description'] }}</p>
                         </li>
                     {% endfor %}
                 </ul>
