@@ -72,7 +72,7 @@ def get_flights(airport1,airport2,departureDate,passengers):
         client_secret='Li9lNYdIKT162SRB'
     )
     try:
-        response = amadeus.shopping.flight_offers_search.get(originLocationCode=f'{airport1}', destinationLocationCode=f'{airport2}', departureDate=f'{departureDate}', adults=f'{passengers}',max=10)
+        response = amadeus.shopping.flight_offers_search.get(originLocationCode=f'{airport1}', destinationLocationCode=f'{airport2}', departureDate=f'{departureDate}', adults=f'{passengers}',max=9)
     except ResponseError as error:
         print("fail")
         return None

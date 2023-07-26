@@ -52,7 +52,7 @@ class City_Attraction(db.Model):
     Name = db.Column(db.String(120),unique=False,nullable=False)
     Address = db.Column(db.String(120),unique=False,nullable=False)
     Tags = db.Column(db.String(900),unique=False,nullable=False)
-    Summary = db.Column(db.String(5000),unique=False,nullable=False)
+    Summary = db.Column(db.String(5000),unique=False,nullable=True)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -65,6 +65,7 @@ class User(db.Model):
         return f"User('{self.username}', '{self.email}')"
 
 with app.app_context():
+    db.drop_all()
     db.create_all()
 
 @app.route("/")
@@ -110,18 +111,32 @@ def country_information():
             info = country_city_info(country,city,True,False)
     else:
         info = country_city_info(country,city,False,False)
-    placy1 = info[-1]['attract1'][0]
-    imy1 = info[-1]['attract1'][1]
-    crip1 = info[-1]['attract1'][3]
-    placy2 = info[-1]['attract2'][0]
-    imy2 = info[-1]['attract2'][1]
-    crip2 = info[-1]['attract2'][3]
-    placy3 = info[-1]['attract3'][0]
-    imy3 = info[-1]['attract3'][1]
-    crip3 = info[-1]['attract3'][3]
-    summary1 = info[-1]['attract1'][4]
-    summary2 = info[-1]['attract2'][4]
-    summary3 = info[-1]['attract3'][4]
+    if info[-1] is not None:
+        placy1 = info[-1]['attract1'][0]
+        imy1 = info[-1]['attract1'][1]
+        crip1 = info[-1]['attract1'][3]
+        placy2 = info[-1]['attract2'][0]
+        imy2 = info[-1]['attract2'][1]
+        crip2 = info[-1]['attract2'][3]
+        placy3 = info[-1]['attract3'][0]
+        imy3 = info[-1]['attract3'][1]
+        crip3 = info[-1]['attract3'][3]
+        summary1 = info[-1]['attract1'][4]
+        summary2 = info[-1]['attract2'][4]
+        summary3 = info[-1]['attract3'][4]
+    else:
+        placy1 = None
+        imy1 = None
+        crip1 = None
+        placy2 = None
+        imy2 = None
+        crip2 = None
+        placy3 = None
+        imy3 = None
+        crip3 = None
+        summary1 = None
+        summary2 = None
+        summary3 = None
     return render_template('countryInformation.html', city=city,country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital= info[5], ony= info[6], ony2= info[7], attractions = info[8], place1=placy1, pic1=imy1, descrip1 =crip1, place2=placy2, pic2= imy2, descrip2=crip2, place3=placy3, pic3=imy3, descrip3=crip3,summary1 = summary1,summary2 = summary2,summary3 = summary3)
 
 def country_city_info(country,city,countryBool,cityBool):
