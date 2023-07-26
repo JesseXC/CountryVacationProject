@@ -22,6 +22,7 @@ import secrets
 import json
 from attractions_api import get_attractions
 from attractions_api import get_flights
+
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
@@ -118,7 +119,10 @@ def country_information():
     placy3 = info[-1]['attract3'][0]
     imy3 = info[-1]['attract3'][1]
     crip3 = info[-1]['attract3'][3]
-    return render_template('countryInformation.html', city=city,country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital= info[5], ony= info[6], ony2= info[7], attractions = info[8], place1=placy1, pic1=imy1, descrip1 =crip1, place2=placy2, pic2= imy2, descrip2=crip2, place3=placy3, pic3=imy3, descrip3=crip3)
+    summary1 = info[-1]['attract1'][4]
+    summary2 = info[-1]['attract2'][4]
+    summary3 = info[-1]['attract3'][4]
+    return render_template('countryInformation.html', city=city,country=country,images = info[0], country_info = info[1], youtube_videos = info[2], temperature = info[3], mess = info[4],capital= info[5], ony= info[6], ony2= info[7], attractions = info[8], place1=placy1, pic1=imy1, descrip1 =crip1, place2=placy2, pic2= imy2, descrip2=crip2, place3=placy3, pic3=imy3, descrip3=crip3,summary1 = summary1,summary2 = summary2,summary3 = summary3)
 
 def country_city_info(country,city,countryBool,cityBool):
     valid_country = {country: code for country, code in countries.items() if code in regions}
@@ -181,19 +185,22 @@ def create_attractions(city,country):
                 city_attractions[0].Name,
                 city_attractions[0].Image,
                 city_attractions[0].Address,
-                ast.literal_eval(city_attractions[0].Tags)
+                ast.literal_eval(city_attractions[0].Tags),
+                city_attractions[0].Summary if len(city_attractions) > 2 else None
             ],
             'attract2': [
                 city_attractions[1].Name if len(city_attractions) > 1 else None,
                 city_attractions[1].Image if len(city_attractions) > 1 else None,
                 city_attractions[1].Address if len(city_attractions) > 1 else None,
-                ast.literal_eval(city_attractions[1].Tags) if len(city_attractions) > 1 else None
+                ast.literal_eval(city_attractions[1].Tags) if len(city_attractions) > 1 else None,
+                city_attractions[1].Summary if len(city_attractions) > 2 else None
             ],
             'attract3': [
                 city_attractions[2].Name if len(city_attractions) > 2 else None,
                 city_attractions[2].Image if len(city_attractions) > 2 else None,
                 city_attractions[2].Address if len(city_attractions) > 2 else None,
-                ast.literal_eval(city_attractions[2].Tags) if len(city_attractions) > 2 else None
+                ast.literal_eval(city_attractions[2].Tags) if len(city_attractions) > 2 else None,
+                city_attractions[2].Summary if len(city_attractions) > 2 else None
             ]
         }
         print(attractions)

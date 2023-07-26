@@ -100,9 +100,9 @@ body{
 }
 .grid-item p {
     font-weight: bold;
-    text-align: center;
+    text-align: left;
     color: #333;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     padding: 5px;
 }
 
@@ -311,3 +311,13 @@ h1 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow to the large text box */
   }
   
+  h2{
+    font-size: 32px;
+    color: #101011; /* Adjust the color as needed */
+    margin-bottom: 10px; /* Add some spacing below the heading */
+    text-transform: uppercase; /* Convert the text to uppercase for emphasis */
+    letter-spacing: 2px; /* Add some letter spacing for a modern look */
+    font-weight: bold; /* Make the heading bold for prominence */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle text shadow */
+    text-decoration-line: underline;
+  }

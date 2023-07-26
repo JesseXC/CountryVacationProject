@@ -69,20 +69,32 @@
                 <img src= {{pic1}} alt="Image">
                 </div>
                 <div class="grid-item">
+                    <h2>Info</h2>
+                    {%if summary1%}
+                    <p> About: {{summary1}} </p>
+                    {%endif%}
                 <p>Related labels: {{descrip1}}
                 </div>
                 <div class="grid-item">
                 <p>Related Labels: {{descrip2}}</p>
-                <h1>{{place2}}</h1>
+                {%if summary2%}
+                <p> About: {{summary2}} </p>
+                {%endif%}     
+                <h2>Info</h2>
                 </div>
                 <div class="grid-item">
                 <img src= {{pic2}} alt="Image">
+                <h1>{{place2}}</h1>  
                 </div>
                 <div class="grid-item">
                 <h1>{{place3}}</h1>
                 <img src= {{pic3}} alt="Image">
                 </div>
                 <div class="grid-item">
+                    <h2>Info</h2>
+                    {%if summary3%}
+                    <p> About: {{summary3}} </p>
+                    {%endif%}
                 <p>Related labels: {{descrip3}}
                 </div>
         </div>
@@ -123,7 +135,7 @@
             {% endif %}
             <div class="ticket-container">
             <div id="flight-booking">
-                <h2>Flight Booking</h2>
+                <h1>Flight Booking</h1>
 
                 <form id="flight-form">
                   <label for="departure">Departure (Aiport Name):</label>
