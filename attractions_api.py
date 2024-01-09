@@ -1,5 +1,4 @@
 # Import the required library
-
 from amadeus import Client, ResponseError
 import requests
 
